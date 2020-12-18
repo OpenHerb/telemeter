@@ -1,5 +1,5 @@
 ---
-name: Arduino Make
+name: cpplint
 
 on:
   push:
