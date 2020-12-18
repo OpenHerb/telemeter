@@ -18,20 +18,22 @@
     ```
     For more installation information visit the [arduino-cli docs](https://arduino.github.io/arduino-cli/latest/installation/)
 
-2. Populate `.env` file with environment configurables. For more information about environment configuration see the [docs]().
+2. Populate `.env` file with environment configurables. For more information about environment configuration see the [docs](/docs/README.md).
 
 3. Setup and configure `arduino-cli` and `cpplint`, run:
     ```bash
     make setup
     ```
-4. Test the demo project by connecting your arduino board through USB. These make targets compile and flash the demo to your arduino board.
+4. Test the project by connecting your arduino board through USB. These make targets compile and flash the source code to your arduino board.
     ```bash
     make compile;
     make flash
     ```
-1. Open the serial monitor and observe the output from the serial port using `make monitor`
+5. Open the serial monitor and observe the output from the serial port using `make monitor`
 6. Clean the project environment using `make clean`
+
+
 Run `make` for more information on make targets
 
 ## License
-[GNU](LICENSE)
+[GNU General Public License v3.0](LICENSE)
