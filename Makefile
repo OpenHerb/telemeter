@@ -6,12 +6,6 @@
 # Modified: 2020-11
 # Copyright © 2020 Christian Sargusingh
 
-OKG=\033[92m
-# WARNING=\033[93m
-FAIL=\033[91m
-OKB=\033[94m
-UNDERLINE=\033[4m
-NC=\033[0m
 
 # Source user env flags
 include .env

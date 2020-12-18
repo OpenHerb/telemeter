@@ -1,14 +1,10 @@
-# Arduino Make
-[![Arduino Make](https://github.com/cSDes1gn/arduino-make/workflows/Arduino%20Make/badge.svg?branch=master)](https://github.com/cSDes1gn/arduino-make/actions)
+# OpenHerb Telemeter
 
-![img](/docs/img/ArduinoCommunityLogo.png)
+![img](/docs/img/icon-transparent.png)
 
-- [Arduino Make](#arduino-make)
+- [OpenHerb Telemeter](#openherb-telemeter)
   - [Quickstart](#quickstart)
-    - [Vscode](#vscode)
   - [License](#license)
-
-Arduino Make is a repository template for building large scale arduino projects. It attempts to homogenize best practices for C/C++ development in accordance with [Google Style C++](https://google.github.io/styleguide/cppguide.html) and [DOxygen](https://www.doxygen.nl/manual/index.html) while meeting the requirements for `arduino-cli` runtimes. The environment is controlled by an easy to use Makefile with a built-in linter to enforce good coding habits and consistent and flexible arduino project design.
 
 ## Quickstart
 1. Preinstallations and environment configuration
@@ -37,8 +33,5 @@ Arduino Make is a repository template for building large scale arduino projects.
 6. Clean the project environment using `make clean`
 Run `make` for more information on make targets
 
-### Vscode
-This repository includes `.vscode` `c_cpp_properties.json` and `.code-workspace` files for vscode environment setup. For more information on these configuration files see the [docs]().
-
 ## License
-[MIT License](LICENSE)
+[GNU](LICENSE)
