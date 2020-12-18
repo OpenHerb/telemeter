@@ -1,0 +1,35 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "extensions": {
+        "recommendations": [
+            "ms-vscode.cpptools",
+            "visualstudioexptteam.vscodeintellicode",
+            "ms-vscode.hexeditor",
+            "mikestead.dotenv"
+        ]
+    },
+    "settings": {
+        "workbench.activityBar.visible": true,
+        "editor.suggestSelection": "first",
+        "editor.rulers": [80],
+        "breadcrumbs.enabled": true,
+        "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+        "workbench.sideBar.location": "left",
+        "latex-workshop.view.pdf.viewer": "tab",
+        "diffEditor.ignoreTrimWhitespace": false,
+        "window.zoomLevel": 0,
+        "C_Cpp.intelliSenseEngine":"Tag Parser",
+        "cpplint.root": "${workspaceFolder}",
+        "cpplint.cpplintPath":"/usr/local/Cellar/python@3.8/3.8.6/Frameworks/Python.framework/Versions/3.8/bin/cpplint",
+        "cpplint.extensions": [
+            "cpp",
+            "c",
+            "h",
+            "ino"
+        ]
+    }
+}

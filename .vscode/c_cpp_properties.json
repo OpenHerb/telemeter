@@ -1,0 +1,57 @@
+{
+    "env": {
+        "myDefaultIncludePath": [
+            "${workspaceFolder}/**"
+        ],
+        "myCompilerPath": "/usr/local/bin/clang"
+    },
+    "configurations": [
+        {
+            "name": "Mac",
+            "intelliSenseMode": "gcc-x64",
+            // set compile path to avr-gcc
+            "compilerPath": "/Users/${USER}/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "includePath": [
+                //project includes
+                "${myDefaultIncludePath}",
+                "/Users/${USER}/Documents/Arduino/libraries",
+                // built-ins
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries/SPI/src",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries/SoftwareSerial/src",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries/Wire/src",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries/HID/src",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries/EEPROM/src",
+                // Arduino.h
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/cores/arduino",
+                // for avr built-ins (pgmspace, io, interrupt etc..)
+                "/Users/${USER}/Library/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/avr/include",
+                //for pin states
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/variants/standard"
+            ],
+            "macFrameworkPath": [
+                "/System/Library/Frameworks"
+            ],
+            // "defines": [
+            //     "FOO",
+            //     "BAR=100"
+            // ],
+            "forcedInclude": [
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/cores/arduino/Arduino.h"
+            ],
+            // "compileCommands": "/path/to/compile_commands.json",
+            "browse": {
+              "path": [
+                "${workspaceFolder}",
+                "/Users/${USER}/Documents/Arduino/libraries",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/libraries",
+                "/Users/${USER}/Library/Arduino15/packages/arduino/hardware/avr/1.8.3/cores/arduino"
+              ],
+              "limitSymbolsToIncludedHeaders": true
+              // "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}
