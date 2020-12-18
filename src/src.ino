@@ -6,10 +6,9 @@
  *
  * @brief Sample source file entry point demonstrating local include calls.
  *
- * @author <Name>
- * Contact: <Email>
+ * @author Christian Sargusingh
  * 
- * Copyright © [year] <Copyright Owner>.
+ * Copyright © 2020 OpenHerb.
  */
 #include <SoftwareSerial.h>
 #include <Lib1.h>
