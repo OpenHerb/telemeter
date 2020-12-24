@@ -11,17 +11,20 @@
  * Copyright © 2020 OpenHerb.
  */
 #include <SoftwareSerial.h>
-#include <Lib1.h>
+#include <Css.h>
 
-Lib1 lb1("Hello from Lib1!");
+uint16_t value;
+
+Css Css;
 
 void setup() {
+    // setup serial interface
     Serial.begin(9600);
 }
 
 void loop() {
-    Serial.println("Hello World!");
-    Serial.println(lb1.echo());
-    Serial.println(lb2.echo());
+    Serial.print("Analog readout: ");
+    value = Css.read();
+    Serial.println(value);
     delay(1000);
 }
