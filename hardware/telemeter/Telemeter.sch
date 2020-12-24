@@ -2554,6 +2554,11 @@ Commonly used for small ceramic capacitors. Like our 0.1uF (http://www.sparkfun.
 <wire x1="35.56" y1="147.32" x2="27.94" y2="147.32" width="0.1524" layer="91"/>
 <label x="27.94" y="147.32" size="1.778" layer="95" rot="MR0" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U1" gate="U1" pin="PD4(XCK/T0)"/>
+<wire x1="157.48" y1="101.6" x2="177.8" y2="101.6" width="0.1524" layer="91"/>
+<label x="177.8" y="101.6" size="1.778" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
