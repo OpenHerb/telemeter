@@ -13,7 +13,7 @@
 #include <SoftwareSerial.h>
 #include <Css.h>
 
-uint16_t value;
+uint16_t sm;
 
 Css Css;
 
@@ -24,11 +24,10 @@ void setup() {
 
 
 void loop() {
-    Serial.print("");
     // Poll sensors
-    smp = Css.read();
+    sm = Css.read();
     // Construct sensorframe
-    sensorframe = "SM:" + String(smp) + "|"
+    String sensorframe = String("SM&") + String(sm) + "|";
     // Publish through serial for digest
     Serial.println(sensorframe);
     delay(1000);

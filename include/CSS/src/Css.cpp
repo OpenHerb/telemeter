@@ -17,7 +17,7 @@ uint16_t Css::read() {
     if (smp >= 100) {
         smp = 100;
     } else if (smp <=0) {
-        smv = 0;
+        smp = 0;
     }
-    return smv;
+    return smp;
 }
