@@ -1,10 +1,10 @@
 // -*- lsst-c++ -*-
 /**
- * Sample src.ino file (entry point)
+ * OpenHerb Telemeter Main
  * 
  * @file src.ino
  *
- * @brief Sample source file entry point demonstrating local include calls.
+ * @brief Main event loop for telemetry collection and serial publishing
  *
  * @author Christian Sargusingh
  * 
@@ -22,9 +22,14 @@ void setup() {
     Serial.begin(9600);
 }
 
+
 void loop() {
-    Serial.print("Analog readout: ");
-    value = Css.read();
-    Serial.println(value);
+    Serial.print("");
+    // Poll sensors
+    smp = Css.read();
+    // Construct sensorframe
+    sensorframe = "SM:" + String(smp) + "|"
+    // Publish through serial for digest
+    Serial.println(sensorframe);
     delay(1000);
 }
