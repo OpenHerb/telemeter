@@ -31,6 +31,27 @@ uint16_t lx = 0;
 Css Css;
 Lumex Lumex;
 
+void write_oled(uint16_t sm, uint16_t lx){
+	// frame setup 
+	display.clearDisplay();
+    display.setTextSize(1);
+	display.setTextColor(WHITE);
+    display.setCursor(0,0);
+    display.println("Soil:");
+    display.setTextSize(2);
+    display.setCursor(0,18);
+    display.println(sm);
+    display.setCursor(50,0);
+    display.setTextSize(1);
+    display.println("Lux:");
+    display.setCursor(50,18);
+    display.setTextSize(2);
+    display.println(lx);
+	// write to display
+	display.display();
+}
+
+
 void setup() {
     // setup serial interface
     Serial.begin(9600);
@@ -44,6 +65,10 @@ void loop() {
     // Poll sensors
     sm = Css.read();
     lx = Lumex.read();
+
+    // write to OLED
+    write_oled(sm, lx);
+
     // Construct sensorframe
     String sensorframe = String("SM&") + String(sm) + "|" + "LX&" + String(lx) + "|";
     // Publish through serial for digest
