@@ -11,6 +11,13 @@
 
 uint16_t Css::read() {
     // read the value from the sensor through the 328p ADC
-    adc = analogRead(CSS_PIN);
-    return adc;
+    smv = analogRead(CSS_PIN);
+    smp = map(smv, av, wv, 0, 100);
+    // set bounds to percentage limits
+    if (smp >= 100) {
+        smp = 100;
+    } else if (smp <=0) {
+        smv = 0;
+    }
+    return smv;
 }
