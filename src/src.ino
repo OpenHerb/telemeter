@@ -20,18 +20,22 @@
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 #define OLED_RESET -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 
+#define SAMPLE_SIZE 25
+
 //Declaring the display name (display)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // sensor values
-uint16_t sm = 0;
-uint16_t lx = 0;
+uint8_t idx = 0;
+
+uint16_t sm[SAMPLE_SIZE];
+uint32_t lx[SAMPLE_SIZE];
 
 // init sensor interfaces
 Css Css;
 Lumex Lumex;
 
-void write_oled(uint16_t sm, uint16_t lx){
+void write_oled(uint32_t sm, uint32_t lx){
 	// frame setup 
 	display.clearDisplay();
     display.setTextSize(1);
@@ -60,18 +64,36 @@ void setup() {
 	display.display();
 }
 
-
 void loop() {
-    // Poll sensors
-    sm = Css.read();
-    lx = Lumex.read();
-
+    // Poll sensors and save to sampling list
+    idx += 1;
+    sm[idx] = Css.read();
+    lx[idx] = Lumex.read();
+    if ( idx == SAMPLE_SIZE ) {
+        idx = 0;
+        publish_sensorframe();
+    }
     // write to OLED
-    write_oled(sm, lx);
+    write_oled(sm[idx], lx[idx]);
+    // Serial.println(lx[idx]);
+    delay(500);
+}
 
+
+
+void publish_sensorframe() {
+    // compute averages
+    uint32_t avg_sm = 0;
+    uint32_t avg_lx = 0;
+    // average all sensor readings
+    for ( int i = 0; i < SAMPLE_SIZE; i++ ) {
+        avg_sm += sm[i];
+        avg_lx += lx[i];
+    }
+    avg_sm = avg_sm / SAMPLE_SIZE;
+    avg_lx = avg_lx / SAMPLE_SIZE;
     // Construct sensorframe
-    String sensorframe = String("SM&") + String(sm) + "|" + "LX&" + String(lx) + "|";
+    String sensorframe = String("SM&") + String(avg_sm) + "|" + "LX&" + String(avg_lx) + "|";
     // Publish through serial for digest
     Serial.println(sensorframe);
-    delay(1000);
 }
