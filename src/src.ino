@@ -28,7 +28,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // sensor values
 uint8_t idx = 0;
 
-uint16_t sm[SAMPLE_SIZE];
+uint32_t sm[SAMPLE_SIZE];
 uint32_t lx[SAMPLE_SIZE];
 
 // init sensor interfaces
@@ -59,6 +59,9 @@ void write_oled(uint32_t sm, uint32_t lx){
 void setup() {
     // setup serial interface
     Serial.begin(9600);
+    Serial.println("OpenHerb Telemeter © 2021");
+    Serial.println("-------------------------");
+    Serial.println("Version 0.1");
     // Start the OLED display
 	display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 	display.display();
@@ -79,7 +82,30 @@ void loop() {
     delay(500);
 }
 
-
+/**
+ * Computes the standard deviation of the samples.
+ *
+ * @return standard deviation of the cached sensor metrics
+ */
+uint32_t std_deviation(uint32_t samples[], int avg){
+	uint32_t stdd = 0;
+	uint32_t variance = 0;
+	// compute variance
+	for (uint8_t i = 0; i < SAMPLE_SIZE; i++) {
+		uint32_t sample = sq(samples[i] - avg);
+		// Serial.print("Sample: ");
+		// Serial.println(sample);
+		variance += sample;
+	}
+	variance /= SAMPLE_SIZE;
+	// Serial.print("Variance: ");
+	// Serial.println(variance);
+	//calculate std deviation
+	stdd = sqrt(variance);
+	// Serial.print("Standard Deviation: ");
+	// Serial.println(stdd);
+	return stdd;
+}
 
 void publish_sensorframe() {
     // compute averages
@@ -90,10 +116,11 @@ void publish_sensorframe() {
         avg_sm += sm[i];
         avg_lx += lx[i];
     }
-    avg_sm = avg_sm / SAMPLE_SIZE;
-    avg_lx = avg_lx / SAMPLE_SIZE;
+    avg_sm /= SAMPLE_SIZE;
+    avg_lx /= SAMPLE_SIZE;
+    
     // Construct sensorframe
-    String sensorframe = String("SM&") + String(avg_sm) + "|" + "LX&" + String(avg_lx) + "|";
+    String sensorframe = String("SM&") + String(avg_sm) + "|" + "LX&" + String(avg_lx) + "|"+ "SM_SD&" + String(std_deviation(sm, avg_sm)) + "|" + "LX_SD&" + String(std_deviation(lx, avg_lx)) + "|";
     // Publish through serial for digest
     Serial.println(sensorframe);
 }
