@@ -69,7 +69,6 @@ void setup() {
 
 void loop() {
     // Poll sensors and save to sampling list
-    idx += 1;
     sm[idx] = Css.read();
     lx[idx] = Lumex.read();
     if ( idx == SAMPLE_SIZE ) {
@@ -78,8 +77,9 @@ void loop() {
     }
     // write to OLED
     write_oled(sm[idx], lx[idx]);
-    // Serial.println(lx[idx]);
+    // Serial.println(sm[idx], lx[idx]);
     delay(500);
+    idx += 1;
 }
 
 /**
