@@ -34,7 +34,7 @@ uint32_t sm[SAMPLE_SIZE];   // soil moisture array
 uint32_t lx[SAMPLE_SIZE];   // luminous flux array
 uint32_t tp[SAMPLE_SIZE];   // ambient temperature array 
 uint32_t pa[SAMPLE_SIZE];   // ambient pressure array
-uint32_t rh[SAMPLE_SIZE];   // ambient pressure array
+uint32_t rh[SAMPLE_SIZE];   // relative humidity
 
 // init sensor interfaces
 Css Css;
@@ -59,7 +59,7 @@ void write_oled(uint32_t sm, uint32_t lx, uint32_t tp, uint32_t pa, uint32_t rh)
     display.setCursor(27,10);
     display.println(pa);
     display.setCursor(27,20);
-    display.println("hPa");
+    display.println("kPa");
 
     display.setCursor(54,0);
     display.println("TEMP");
@@ -96,9 +96,6 @@ void setup() {
         Serial.println("Could not find a valid BME280 sensor, check wiring!");
         while (1);
     }
-    Serial.println("OpenHerb Telemeter © 2021");
-    Serial.println("-------------------------");
-    Serial.println("Version 0.1");
     // Start the OLED display
 	display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
 	display.display();
@@ -106,19 +103,19 @@ void setup() {
 }
 
 void loop() {
-    // Poll sensors and save to sampling list
-    sm[idx] = Css.read();
-    lx[idx] = Lumex.read();
-    tp[idx] = bme.readTemperature();
-    pa[idx] = bme.readPressure()/100; //hPa
-    rh[idx] = bme.readHumidity();
     if ( idx == SAMPLE_SIZE ) {
         idx = 0;
         publish_sensorframe();
     }
+    // Poll sensors and save to sampling list
+    sm[idx] = Css.read();
+    lx[idx] = Lumex.read();
+    tp[idx] = bme.readTemperature();
+    pa[idx] = bme.readPressure()/1000; //kPa
+    rh[idx] = bme.readHumidity();
     // write to OLED
     write_oled(sm[idx], lx[idx], tp[idx], pa[idx], rh[idx]);
-    // Serial.println(sm[idx], lx[idx]);
+    // Serial.println("Index: " + String(idx));
     delay(500);
     idx += 1;
 }
@@ -168,7 +165,6 @@ void publish_sensorframe() {
     avg_tp /= SAMPLE_SIZE;
     avg_pa /= SAMPLE_SIZE;
     avg_rh /= SAMPLE_SIZE;
-    
     // Construct sensorframe
     String sensorframe = String("TP&") + String(avg_tp) + "|" + "RH&" + String(avg_rh) + "|" + "PA&" + String(avg_pa) + "|" + "SM&" + String(avg_sm) + "|" + "LX&" + String(avg_lx) + "|";
     // Publish through serial for digest
