@@ -23,7 +23,7 @@
 #define OLED_ADDR 0x3C
 #define BME_ADDR 0x76
 
-#define SAMPLE_SIZE 25
+#define SAMPLE_SIZE 10
 
 //Declaring the display name (display)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
