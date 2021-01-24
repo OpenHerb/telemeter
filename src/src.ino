@@ -22,6 +22,7 @@
 #define OLED_RESET -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define OLED_ADDR 0x3C
 #define BME_ADDR 0x76
+#define H20_PIN 7
 
 #define SAMPLE_SIZE 10
 
@@ -90,6 +91,9 @@ void write_oled(uint32_t sm, uint32_t lx, uint32_t tp, uint32_t pa, uint32_t rh)
 void setup() {
     // setup serial interface
     Serial.begin(9600);
+    // relay module output (active high)
+    pinMode(H20_PIN, OUTPUT);
+    digitalWrite(H20_PIN,HIGH);
     // default settings
     // (you can also pass in a Wire library object like &Wire2)
     if (!bme.begin(BME_ADDR)) {
@@ -106,6 +110,9 @@ void loop() {
     if ( idx == SAMPLE_SIZE ) {
         idx = 0;
         publish_sensorframe();
+        digitalWrite(H20_PIN,LOW);
+        delay(2000);
+        digitalWrite(H20_PIN,HIGH);
     }
     // Poll sensors and save to sampling list
     sm[idx] = Css.read();
