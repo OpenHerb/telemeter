@@ -10,6 +10,7 @@
  * 
  * Copyright © 2020 OpenHerb.
  */
+#include <Arduino.h>
 #include <Wire.h>
 #include <SoftwareSerial.h>
 #include <Adafruit_SSD1306.h>
