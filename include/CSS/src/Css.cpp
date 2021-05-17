@@ -9,10 +9,32 @@
 #include <Arduino.h>
 #include "Css.h"
 
-uint16_t Css::read() {
+/**
+ * @brief Css Constructor
+ * 
+ * @param spec struct schema
+ */
+Css::Css(Spec spec) {
+    pin = spec.css_pin;
+    // initialize cyclic buffer at specified size
+    sm_buffer = new uint8_t[spec.buffer_size];
+    av = spec.av;
+    sv = spec.sv;
+    Serial.println("Css interface initialized");
+}
+
+/**
+ * @brief Css destructor.
+ */
+Css::~Css(){
+    delete sm_buffer;
+    Serial.println("Css interface dereferenced");
+}
+
+uint8_t Css::read() {
     // read the value from the sensor through the 328p ADC
-    smv = analogRead(CSS_PIN);
-    smp = map(smv, av, wv, 0, 100);
+    smv = analogRead(pin);
+    smp = map(smv, av, sv, 0, 100);
     // set bounds to percentage limits
     if (smp >= 100) {
         smp = 100;
