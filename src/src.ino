@@ -91,7 +91,7 @@ void write_oled(uint32_t sm, uint32_t lx, uint32_t tp, uint32_t pa, uint32_t rh)
 void setup() {
     // setup serial interface
     Serial.begin(9600);
-    const Css::Spec css_spec = { .css_pin = A6, .buffer_size = 40, .av = 620, .sv = 310 };
+    const Css::Spec css_spec = { .css_pin = A6, .buffer_size = 5, .av = 620, .sv = 310 };
     css = new Css(css_spec);
     // relay module output (active high)
     pinMode(H20_PIN, OUTPUT);
@@ -109,6 +109,7 @@ void setup() {
 }
 
 void loop() {
+    uint8_t sm;
     if ( idx == SAMPLE_SIZE ) {
         idx = 0;
         publish_sensorframe();
@@ -117,13 +118,13 @@ void loop() {
         digitalWrite(H20_PIN,HIGH);
     }
     // Poll sensors and save to sampling list
-    css->read();
+    sm = css->read();
     lx[idx] = Lumex.read();
     tp[idx] = bme.readTemperature();
     pa[idx] = bme.readPressure()/1000; //kPa
     rh[idx] = bme.readHumidity();
     // write to OLED
-    write_oled(0, lx[idx], tp[idx], pa[idx], rh[idx]);
+    write_oled(sm, lx[idx], tp[idx], pa[idx], rh[idx]);
     // Serial.println("Index: " + String(idx));
     delay(500);
     idx += 1;
