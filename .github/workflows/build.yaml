@@ -22,7 +22,7 @@ jobs:
         # add to $PATH
         export PATH=$PATH:/home/runner/work/telemeter/telemeter/bin
         make setup
-        make compile
+        make compile mode=ci
     - name: Archive compile artefacts 
       uses: actions/upload-artifact@v2
       with:
