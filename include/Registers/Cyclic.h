@@ -1,6 +1,6 @@
 // -*- lsst-c++ -*-
 /**
- * Cyclic Buffer Control Logic
+ * Cyclic Buffer Management Interface
  * 
  * See COPYRIGHT file at the top of the source tree.
  * Copyright © 2020 OpenHerb.
@@ -19,12 +19,17 @@
 #define INCLUDE_REGISTERS_CYCLIC_H_
 #include <Arduino.h>
 
+/**
+ * @brief Cyclic Buffer
+ * 
+ * @tparam T 
+ */
 template <typename T>
 class CyclicBuffer {
     public:
         struct Spec {
-            String name;
-            uint8_t buffer_size;
+            String name;                    // name of buffer for logging
+            uint8_t buffer_size;            // size of the buffer (used to compute end of buffer)
         };
         explicit CyclicBuffer(Spec spec);
         ~CyclicBuffer();
@@ -32,9 +37,9 @@ class CyclicBuffer {
         void push(T value);
 
     private:
-        T *cbuf;                // generic cyclic buffer mem pointer 
-        T *cbuf_start;          // buffer start address
-        String name;            // name of buffer for logging
-        uint8_t buffer_size;    // size of the buffer (used to compute end of buffer)
+        T *cbuf;                            // generic cyclic buffer mem pointer 
+        T *cbuf_start;                      // buffer start address
+        String name;                        // name of buffer for logging
+        uint8_t buffer_size;                // size of the buffer (used to compute end of buffer)
 };
 #endif // INCLUDE_REGISTERS_CYCLIC_H_
