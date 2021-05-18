@@ -17,9 +17,6 @@
 
 #ifndef INCLUDE_LUMEX_SRC_LUMEX_H_
 #define INCLUDE_LUMEX_SRC_LUMEX_H_
-#define VIN 5 // V power voltage
-#define RC 10000 // constant resistor for voltage divider
-#define LX_PIN A7 // A0-A7 are ADC pins on the 328p
 #include <Arduino.h>
 #include <Cyclic.h>
 

@@ -43,7 +43,7 @@ uint16_t Lumex::read() {
     // Conversion analog to voltage
     float Vout = static_cast<float>(spv) * (vin / static_cast<float>(1023));
     // Conversion voltage to resistance via voltage dividers
-    float RLDR = (RC * (vin - Vout))/Vout;
+    float RLDR = (sr * (vin - Vout))/Vout;
     // Convert resitance to lumens and push to the buffer
     buffer->push(500/(RLDR/1000));
     return buffer->average();;
