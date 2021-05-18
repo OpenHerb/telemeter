@@ -18,15 +18,14 @@ jobs:
         # install arduino-cli to $PWD/bin
         curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
     - name: compile source code
-      working-directory: firmware
       run: |
         # add to $PATH
         export PATH=$PATH:/home/runner/work/telemeter/telemeter/bin
-        # make setup
-        # make compile
+        make setup
+        make compile
     - name: Archive compile artefacts 
       uses: actions/upload-artifact@v2
       with:
         name: firmware
-        path: firmware/build/*
+        path: build/*
         retention-days: 5
