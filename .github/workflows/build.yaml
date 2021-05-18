@@ -17,6 +17,7 @@ jobs:
       run: |
         # install arduino-cli to $PWD/bin
         curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+        which arduino-cli
     - name: compile source code
       working-directory: firmware
       run: |
