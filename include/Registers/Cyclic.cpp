@@ -46,7 +46,7 @@ CyclicBuffer<T>::~CyclicBuffer() {
 template <typename T>
 void CyclicBuffer<T>::push(T value) {
     // check for rollover
-    if (cbuf > cbuf_start + buffer_size) cbuf = cbuf_start;
+    if (cbuf == cbuf_start + buffer_size) cbuf = cbuf_start;
     // push to buffer and increment pointer
     *cbuf = value;
     ++cbuf;
@@ -60,12 +60,10 @@ void CyclicBuffer<T>::push(T value) {
  */
 template <typename T>
 T CyclicBuffer<T>::average() {
-    String buffer_log = "Buffer :";
+    String buffer_log = name + " Buffer :";
     uint8_t size = buffer_size;
     uint32_t cumulative = 0;
     T avg = 0;
-    // check for rollover
-    if (cbuf > cbuf_start + buffer_size) cbuf = cbuf_start;
     // compute average from non-zero buffer readings
     for (T *p = cbuf_start; p != cbuf_start + buffer_size; ++p) {
         buffer_log += " [" + String(*p) + "%]";
@@ -77,7 +75,7 @@ T CyclicBuffer<T>::average() {
     }
     Serial.println(buffer_log);
     // compute average if sufficient data
-    if (size == 0) {
+    if (size <= 0) {
         Serial.println("Not enough measurments for accurate reading");
     } else {
         avg = cumulative / size;
