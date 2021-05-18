@@ -17,9 +17,8 @@
 
 #ifndef INCLUDE_CSS_SRC_CSS_H_
 #define INCLUDE_CSS_SRC_CSS_H_
-#define CSS_PIN A6 // A0-A7 are ADC pins on the 328p
 #include <Arduino.h>
-
+#include <Cyclic.h>
 
 class Css {
     public:
@@ -30,14 +29,12 @@ class Css {
             uint16_t av;            // voltage reading in air
             uint16_t sv;            // voltage reading H20 submerged
         };
+        CyclicBuffer<uint8_t>* buffer;
         explicit Css(Spec spec);
         ~Css();
         uint8_t read();
     
     private:
-        uint8_t *sm_buffer;  // soil moisture cyclic buffer
-        uint8_t *buf_start;  // buffer start address
-        uint8_t buffer_size;        // size of the buffer (used to compute end of buffer)
         uint16_t av = 620;          // voltage calibrated to air
         uint16_t sv = 310;          // voltage calibrated submerged
         uint8_t pin;                // css pin
