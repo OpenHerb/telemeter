@@ -17,7 +17,10 @@
 Css::Css(Spec spec) {
     pin = spec.css_pin;
     // initialize cyclic buffer at specified size
-    sm_buffer = new uint8_t[spec.buffer_size];
+    buffer_size = spec.buffer_size;
+    sm_buffer = new uint8_t[spec.buffer_size]();
+    
+    buf_start = sm_buffer;
     av = spec.av;
     sv = spec.sv;
     Serial.println("Css interface initialized");
@@ -32,6 +35,7 @@ Css::~Css(){
 }
 
 uint8_t Css::read() {
+    String buffer_log;
     // read the value from the sensor through the 328p ADC
     smv = analogRead(pin);
     smp = map(smv, av, sv, 0, 100);
@@ -41,5 +45,16 @@ uint8_t Css::read() {
     } else if (smp <=0) {
         smp = 0;
     }
+    // push to buffer
+    // check buffer bounds
+    if (sm_buffer > buf_start + buffer_size) {
+        sm_buffer = buf_start;
+    }
+    *sm_buffer = smp;
+    ++sm_buffer;
+    for (uint8_t *p = buf_start; p != buf_start + buffer_size; ++p) {
+        buffer_log += " [" + String(*p) + "%]";
+    }
+    Serial.println(buffer_log);
     return smp;
 }
