@@ -19,7 +19,7 @@ Lumex::Lumex(Spec spec) {
     pin = spec.lx_pin;
     vin = spec.vin;
     sr = spec.sr;
-    const CyclicBuffer<uint16_t>::Spec buf_spec = { .name="Lumex Buffer", .buffer_size = spec.buffer_size };
+    const CyclicBuffer<uint16_t>::Spec buf_spec = { .name="Lumex", .buffer_size = spec.buffer_size };
     buffer = new CyclicBuffer<uint16_t>(buf_spec);
     Serial.println("Lumex interface and buffer initialized");
 }
@@ -46,6 +46,7 @@ uint16_t Lumex::read() {
     // Conversion voltage to resistance via voltage dividers
     float RLDR = (sr * (vin - Vout))/Vout;
     // Convert resitance to lumens and push to the buffer
-    buffer->push(500/(RLDR/1000));
-    return buffer->average();;
+    uint16_t lumens = static_cast<uint16_t>(500/(RLDR/1000));
+    buffer->push(lumens);
+    return buffer->average();
 }
