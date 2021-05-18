@@ -9,6 +9,11 @@
 #include <Arduino.h>
 #include "Lumex.h"
 
+/**
+ * @brief Construct a new Lumex:: Lumex object
+ * 
+ * @param spec constructor spec
+ */
 Lumex::Lumex(Spec spec) {
     pin = spec.lx_pin;
     vin = spec.vin;
@@ -18,11 +23,20 @@ Lumex::Lumex(Spec spec) {
     Serial.println("Lumex interface and buffer initialized");
 }
 
+/**
+ * @brief Destroy the Lumex:: Lumex object
+ * 
+ */
 Lumex::~Lumex() {
     delete buffer;
     Serial.println("Lumex interface and buffer dereferenced");
 }
 
+/**
+ * @brief Convert analog voltage at the sense pin to lumen reading, push and read buffer avg
+ * 
+ * @return uint16_t 
+ */
 uint16_t Lumex::read() {
     // read lumex pin
     spv = analogRead(pin);
