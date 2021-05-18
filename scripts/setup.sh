@@ -17,6 +17,8 @@ arduino-cli config init
 arduino-cli core update-index
 arduino-cli core install arduino:avr
 arduino-cli core upgrade
+printf "%b" "${OKB}Installing arduino-cli requirements ${NC}\n"
+xargs -P1 arduino-cli lib install < requirements.txt
 # install cpp linter
 # python3 -m pip install cpplint
 printf "%b" "${OKG} ✓ ${NC} complete\n"
