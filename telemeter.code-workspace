@@ -10,7 +10,8 @@
             "visualstudioexptteam.vscodeintellicode",
             "eamodio.gitlens",
             "mikestead.dotenv",
-            "mine.cpplint"
+            "mine.cpplint",
+            "cschlosser.doxdocgen"
         ]
     },
     "settings": {
