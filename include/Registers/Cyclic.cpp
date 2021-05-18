@@ -42,12 +42,12 @@ T CyclicBuffer<T>::average() {
     uint32_t cumulative = 0;
     T avg = 0;
     // check for rollover
-    if (sm_buffer > buf_start + buffer_size) {
-        sm_buffer = buf_start;
+    if (cbuf > cbuf_start + buffer_size) {
+        cbuf = cbuf_start;
     }
     
     // compute average from non-zero buffer readings
-    for (uint8_t *p = buf_start; p != buf_start + buffer_size; ++p) {
+    for (uint8_t *p = cbuf_start; p != cbuf_start + buffer_size; ++p) {
         buffer_log += " [" + String(*p) + "%]";
         if (*p <= 0) {
             size -= 1;
