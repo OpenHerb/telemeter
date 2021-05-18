@@ -21,14 +21,26 @@
 #define RC 10000 // constant resistor for voltage divider
 #define LX_PIN A7 // A0-A7 are ADC pins on the 328p
 #include <Arduino.h>
+#include <Cyclic.h>
 
 class Lumex {
     public:
+        // Lumex constructor specification
+        struct Spec {
+            uint8_t lx_pin;                 // lumex sense pin
+            uint8_t buffer_size;            // buffer size
+            uint8_t vin;                    // voltage on pullup
+            uint16_t sr;                    // resistor grounded on sense pin
+        };
+        explicit Lumex(Spec spec);
+        ~Lumex();
         uint16_t read();
     
     private:
-        // voltage levels calibrated by sensor
-        uint16_t lxv = 0; // analog voltage reading
-        uint16_t lux = 0; // soil moisture as a percentage
+        CyclicBuffer<uint16_t>* buffer;
+        uint8_t pin;                        // lumex pin
+        uint8_t vin;                        // voltage on pullup 
+        uint16_t sr;                        // resistor grounded on sense pin
+        uint16_t spv = 0;                   // analog sense pin voltage reading
 };
 #endif  // INCLUDE_LUMEX_SRC_LUMEX_H_
