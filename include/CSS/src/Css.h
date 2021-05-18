@@ -20,6 +20,10 @@
 #include <Arduino.h>
 #include <Cyclic.h>
 
+/**
+ * @brief Capacitive Soil Sensor interface
+ * 
+ */
 class Css {
     public:
         // CSS constructor specification

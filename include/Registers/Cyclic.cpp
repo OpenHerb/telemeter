@@ -9,6 +9,12 @@
 #include <Arduino.h>
 #include "Cyclic.h"
 
+/**
+ * @brief Construct a new Cyclic Buffer< T>:: Cyclic Buffer object
+ * 
+ * @tparam T 
+ * @param spec constructor specification
+ */
 template <typename T>
 CyclicBuffer<T>::CyclicBuffer(Spec spec) {
     name = spec.name;
@@ -19,6 +25,11 @@ CyclicBuffer<T>::CyclicBuffer(Spec spec) {
     Serial.println(name);
 }
 
+/**
+ * @brief Destroy the Cyclic Buffer< T>:: Cyclic Buffer object
+ * 
+ * @tparam T 
+ */
 template <typename T>
 CyclicBuffer<T>::~CyclicBuffer() {
     delete cbuf;
@@ -26,6 +37,12 @@ CyclicBuffer<T>::~CyclicBuffer() {
     Serial.println(name);
 }
 
+/**
+ * @brief Push a new value of type <T> to the buffer and increment pointer cyclically
+ * 
+ * @tparam T 
+ * @param value new buffer value
+ */
 template <typename T>
 void CyclicBuffer<T>::push(T value) {
     // check for rollover
@@ -35,6 +52,12 @@ void CyclicBuffer<T>::push(T value) {
     ++cbuf;
 }
 
+/**
+ * @brief Compute buffer average filtering all 0 values.
+ * 
+ * @tparam T 
+ * @return T 
+ */
 template <typename T>
 T CyclicBuffer<T>::average() {
     String buffer_log = "Buffer :";
@@ -42,10 +65,7 @@ T CyclicBuffer<T>::average() {
     uint32_t cumulative = 0;
     T avg = 0;
     // check for rollover
-    if (cbuf > cbuf_start + buffer_size) {
-        cbuf = cbuf_start;
-    }
-    
+    if (cbuf > cbuf_start + buffer_size) cbuf = cbuf_start;
     // compute average from non-zero buffer readings
     for (uint8_t *p = cbuf_start; p != cbuf_start + buffer_size; ++p) {
         buffer_log += " [" + String(*p) + "%]";
@@ -58,7 +78,7 @@ T CyclicBuffer<T>::average() {
     Serial.println(buffer_log);
     // compute average if sufficient data
     if (size == 0) {
-        Serial.println("Not enough measurments for accurate soil reading");
+        Serial.println("Not enough measurments for accurate reading");
     } else {
         avg = cumulative / size;
     }

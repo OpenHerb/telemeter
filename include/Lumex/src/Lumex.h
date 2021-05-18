@@ -23,6 +23,10 @@
 #include <Arduino.h>
 #include <Cyclic.h>
 
+/**
+ * @brief Luminous Flux Sensor Interface
+ * 
+ */
 class Lumex {
     public:
         // Lumex constructor specification
