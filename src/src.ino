@@ -32,14 +32,13 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 // sensor values
 uint8_t idx = 0;
-uint32_t lx[SAMPLE_SIZE];   // luminous flux array
 uint32_t tp[SAMPLE_SIZE];   // ambient temperature array 
 uint32_t pa[SAMPLE_SIZE];   // ambient pressure array
 uint32_t rh[SAMPLE_SIZE];   // relative humidity
 
 // init sensor interfaces
 Css* css;
-Lumex Lumex;
+Lumex* lumex;
 Adafruit_BME280 bme; // I2C Interface
 
 void write_oled(uint32_t sm, uint32_t lx, uint32_t tp, uint32_t pa, uint32_t rh){
@@ -93,6 +92,8 @@ void setup() {
     Serial.begin(9600);
     const Css::Spec css_spec = { .css_pin = A6, .buffer_size = 5, .av = 620, .sv = 310 };
     css = new Css(css_spec);
+    const Lumex::Spec lumex_spec = { .lx_pin = A7, .buffer_size = 10, .vin = 5, .sr = 10000 };
+    lumex = new Lumex(lumex_spec);
     // relay module output (active high)
     pinMode(H20_PIN, OUTPUT);
     digitalWrite(H20_PIN,HIGH);
@@ -110,21 +111,23 @@ void setup() {
 
 void loop() {
     uint8_t sm;
+    uint16_t lx;
     if ( idx == SAMPLE_SIZE ) {
         idx = 0;
-        publish_sensorframe();
         digitalWrite(H20_PIN,LOW);
         delay(2000);
         digitalWrite(H20_PIN,HIGH);
     }
-    // Poll sensors and save to sampling list
+    // poll sensors (updates internal buffers)
     sm = css->read();
-    lx[idx] = Lumex.read();
+    lx = lumex->read();
+
     tp[idx] = bme.readTemperature();
     pa[idx] = bme.readPressure()/1000; //kPa
     rh[idx] = bme.readHumidity();
     // write to OLED
-    write_oled(sm, lx[idx], tp[idx], pa[idx], rh[idx]);
+    write_oled(sm, lx, tp[idx], pa[idx], rh[idx]);
+    publish_sensorframe(sm,lx);
     // Serial.println("Index: " + String(idx));
     delay(500);
     idx += 1;
@@ -148,32 +151,29 @@ uint32_t std_deviation(uint32_t samples[], int avg){
 	variance /= SAMPLE_SIZE;
 	// Serial.print("Variance: ");
 	// Serial.println(variance);
-	//calculate std deviation
+	// calculate std deviation
 	stdd = sqrt(variance);
 	// Serial.print("Standard Deviation: ");
 	// Serial.println(stdd);
 	return stdd;
 }
 
-void publish_sensorframe() {
+void publish_sensorframe(uint8_t sm, uint16_t lx) {
     // compute averages
-    uint32_t avg_lx = 0;
     uint32_t avg_tp = 0;
     uint32_t avg_pa = 0;
     uint32_t avg_rh = 0;
     // average all sensor readings
     for ( int i = 0; i < SAMPLE_SIZE; i++ ) {
-        avg_lx += lx[i];
         avg_tp += tp[i];
         avg_pa += pa[i];
         avg_rh += rh[i];
     }
-    avg_lx /= SAMPLE_SIZE;
     avg_tp /= SAMPLE_SIZE;
     avg_pa /= SAMPLE_SIZE;
     avg_rh /= SAMPLE_SIZE;
     // Construct sensorframe
-    String sensorframe = String("TP&") + String(avg_tp) + "|" + "RH&" + String(avg_rh) + "|" + "PA&" + String(avg_pa) + "|" + "SM&" + String(0) + "|" + "LX&" + String(avg_lx) + "|";
+    String sensorframe = String("TP&") + String(avg_tp) + "|" + "RH&" + String(avg_rh) + "|" + "PA&" + String(avg_pa) + "|" + "SM&" + String(sm) + "|" + "LX&" + String(lx) + "|";
     // Publish through serial for digest
     Serial.println(sensorframe);
 }
