@@ -1,0 +1,40 @@
+// -*- lsst-c++ -*-
+/**
+ * Cyclic Buffer Control Logic
+ * 
+ * See COPYRIGHT file at the top of the source tree.
+ * Copyright © 2020 OpenHerb.
+ * 
+ * @file CyclicBuffer.h
+ *
+ * @brief Memory allocation and buffer computation management
+ *
+ * @ingroup Registers 
+ *
+ * @author Christian Sargusingh
+ * Contact: christian@leapsystems.online
+ */
+
+#ifndef INCLUDE_REGISTERS_CYCLIC_H_
+#define INCLUDE_REGISTERS_CYCLIC_H_
+#include <Arduino.h>
+
+template <typename T>
+class CyclicBuffer {
+    public:
+        struct Spec {
+            String name;
+            uint8_t buffer_size;
+        };
+        explicit CyclicBuffer(Spec spec);
+        ~CyclicBuffer();
+        T average();
+        void push(T value);
+
+    private:
+        T *cbuf;                // generic cyclic buffer mem pointer 
+        T *cbuf_start;          // buffer start address
+        String name;            // name of buffer for logging
+        uint8_t buffer_size;    // size of the buffer (used to compute end of buffer)
+};
+#endif // INCLUDE_REGISTERS_CYCLIC_H_
