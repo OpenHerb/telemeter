@@ -6,7 +6,7 @@
  * Copyright © 2020 OpenHerb.
 */
 
-#include <CyclicBuffer.h>
+#include <Cyclic.h>
 #include <Arduino.h>
 #include "Lumex.h"
 
@@ -29,7 +29,7 @@ Lumex::Lumex(Spec spec) {
  * 
  */
 Lumex::~Lumex() {
-    delete buffer;
+    // delete buffer;
     Serial.println("Lumex interface and buffer dereferenced");
 }
 

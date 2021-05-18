@@ -15,8 +15,8 @@
  * Contact: christian@leapsystems.online
  */
 
-#ifndef INCLUDE_CYCLICBUFFER_SRC_CYCLICBUFFER_H_
-#define INCLUDE_CYCLICBUFFER_SRC_CYCLICBUFFER_H_
+#ifndef INCLUDE_REGISTERS_CYCLIC_H_
+#define INCLUDE_REGISTERS_CYCLIC_H_
 #include <Arduino.h>
 
 /**
@@ -31,8 +31,8 @@ class CyclicBuffer {
             String name;                    // name of buffer for logging
             uint8_t buffer_size;            // size of the buffer (used to compute end of buffer)
         };
-        explicit CyclicBuffer<T>(Spec spec);
-        ~CyclicBuffer<T>();
+        explicit CyclicBuffer(Spec spec);
+        ~CyclicBuffer();
         T average();
         void push(T value);
 
@@ -42,4 +42,4 @@ class CyclicBuffer {
         String name;                        // name of buffer for logging
         uint8_t buffer_size;                // size of the buffer (used to compute end of buffer)
 };
-#endif // INCLUDE_CYCLICBUFFER_SRC_CYCLICBUFFER_H_
+#endif // INCLUDE_REGISTERS_CYCLIC_H_

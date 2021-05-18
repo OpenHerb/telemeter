@@ -6,7 +6,7 @@
  * Copyright © 2020 OpenHerb.
 */
 
-#include <CyclicBuffer.h>
+#include <Cyclic.h>
 #include <Arduino.h>
 #include "Css.h"
 
@@ -30,7 +30,7 @@ Css::Css(Spec spec) {
  * 
  */
 Css::~Css(){
-    delete buffer;
+    // delete buffer;
     Serial.println("Css interface and buffer dereferenced");
 }
 

@@ -5,9 +5,9 @@
  * See COPYRIGHT file at the top of the source tree.
  * Copyright © 2020 OpenHerb.
 */
-#include "CyclicBuffer.h"
 
 #include <Arduino.h>
+#include "Cyclic.h"
 
 /**
  * @brief Construct a new Cyclic Buffer< T>:: Cyclic Buffer object
@@ -67,7 +67,7 @@ T CyclicBuffer<T>::average() {
     // check for rollover
     if (cbuf > cbuf_start + buffer_size) cbuf = cbuf_start;
     // compute average from non-zero buffer readings
-    for (uint8_t *p = cbuf_start; p != cbuf_start + buffer_size; ++p) {
+    for (T *p = cbuf_start; p != cbuf_start + buffer_size; ++p) {
         buffer_log += " [" + String(*p) + "%]";
         if (*p <= 0) {
             size -= 1;
@@ -84,3 +84,6 @@ T CyclicBuffer<T>::average() {
     }
     return avg;
 }
+
+template class CyclicBuffer<uint8_t>;
+template class CyclicBuffer<uint16_t>;
