@@ -19,7 +19,9 @@ Css::Css(Spec spec) {
     // initialize cyclic buffer at specified size
     av = spec.av;
     sv = spec.sv;
-    Serial.println("Css interface initialized");
+    const CyclicBuffer<uint8_t>::Spec buf_spec = { .name="Css Buffer", .buffer_size = spec.buffer_size };
+    buffer = new CyclicBuffer<uint8_t>(buf_spec);
+    Serial.println("Css interface and buffer initialized");
 }
 
 /**
