@@ -10,9 +10,9 @@
 #include "Css.h"
 
 /**
- * @brief Css Constructor
+ * @brief Construct a new Css:: Css object
  * 
- * @param spec struct schema
+ * @param spec constructor spec
  */
 Css::Css(Spec spec) {
     pin = spec.css_pin;
@@ -25,13 +25,19 @@ Css::Css(Spec spec) {
 }
 
 /**
- * @brief Css destructor.
+ * @brief Destroy the Css:: Css object
+ * 
  */
 Css::~Css(){
     delete buffer;
     Serial.println("Css interface and buffer dereferenced");
 }
 
+/**
+ * @brief Convert analog voltage at the sense pin to moisture percentage push and read buffer avg
+ * 
+ * @return uint8_t 
+ */
 uint8_t Css::read() {
     // read the value from the sensor through the 328p ADC
     smv = analogRead(pin);
