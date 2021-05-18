@@ -6,6 +6,7 @@
  * Copyright © 2020 OpenHerb.
 */
 
+#include <CyclicBuffer.h>
 #include <Arduino.h>
 #include "Lumex.h"
 

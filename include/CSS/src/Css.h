@@ -18,7 +18,7 @@
 #ifndef INCLUDE_CSS_SRC_CSS_H_
 #define INCLUDE_CSS_SRC_CSS_H_
 #include <Arduino.h>
-#include <Cyclic.h>
+#include <CyclicBuffer.h>
 
 /**
  * @brief Capacitive Soil Sensor interface

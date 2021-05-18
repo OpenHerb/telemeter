@@ -5,9 +5,9 @@
  * See COPYRIGHT file at the top of the source tree.
  * Copyright © 2020 OpenHerb.
 */
+#include "CyclicBuffer.h"
 
 #include <Arduino.h>
-#include "Cyclic.h"
 
 /**
  * @brief Construct a new Cyclic Buffer< T>:: Cyclic Buffer object

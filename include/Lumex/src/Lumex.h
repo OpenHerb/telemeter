@@ -18,7 +18,7 @@
 #ifndef INCLUDE_LUMEX_SRC_LUMEX_H_
 #define INCLUDE_LUMEX_SRC_LUMEX_H_
 #include <Arduino.h>
-#include <Cyclic.h>
+#include <CyclicBuffer.h>
 
 /**
  * @brief Luminous Flux Sensor Interface
