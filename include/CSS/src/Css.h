@@ -35,11 +35,13 @@ class Css {
         uint8_t read();
     
     private:
-        static uint8_t *sm_buffer;  // soil moisture cyclic buffer
+        uint8_t *sm_buffer;  // soil moisture cyclic buffer
+        uint8_t *buf_start;  // buffer start address
+        uint8_t buffer_size;        // size of the buffer (used to compute end of buffer)
         uint16_t av = 620;          // voltage calibrated to air
         uint16_t sv = 310;          // voltage calibrated submerged
         uint8_t pin;                // css pin
-        uint16_t smv = 0; // analog voltage reading
-        uint8_t smp = 0; // soil moisture as a percentage
+        uint16_t smv = 0;           // analog voltage reading
+        uint8_t smp = 0;            // soil moisture as a percentage
 };
 #endif  // INCLUDE_CSS_SRC_CSS_H_
