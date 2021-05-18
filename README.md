@@ -1,4 +1,5 @@
 # OpenHerb Telemeter
+[![build](https://github.com/OpenHerb/telemeter/actions/workflows/build.yaml/badge.svg)](https://github.com/OpenHerb/telemeter/actions/workflows/build.yaml)
 [![cpplint](https://github.com/OpenHerb/telemeter/workflows/cpplint/badge.svg?branch=master)](https://github.com/OpenHerb/telemeter/actions?query=workflow%3Acpplint)
 
 ![img](/docs/img/icon-transparent.png)

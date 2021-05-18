@@ -18,5 +18,5 @@ arduino-cli core update-index
 arduino-cli core install arduino:avr
 arduino-cli core upgrade
 # install cpp linter
-python3 -m pip install cpplint
+# python3 -m pip install cpplint
 printf "%b" "${OKG} ✓ ${NC} complete\n"
