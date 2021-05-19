@@ -12,7 +12,7 @@
 #ifndef INCLUDE_TYPES_TYPES_H_
 #define INCLUDE_TYPES_TYPES_H_
 
-typedef struct Sensorframe {
+struct Sensorframe {
     uint8_t sm;         // soil moisture (%)
     uint16_t lx;        // luminous flux (lumens)
     uint8_t tp;         // ambient temperature (˚C)
