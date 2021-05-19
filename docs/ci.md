@@ -1,7 +1,7 @@
 # Continous Integration
 Modified: 2021-05
 
-This project currently has 2 ci build jobs:
+This project currently has 2 ci build jobs hosted remotely on github actions runners:
 1. source code linting by `cpplint`
 2. compile by `arduino-cli`
 
