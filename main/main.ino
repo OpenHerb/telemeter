@@ -17,7 +17,7 @@
 #include <Css.h>
 #include <Oled.h>
 #include <Types.h>
-
+#include <Pid.h>
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
@@ -33,6 +33,7 @@ const uint16_t loop_delay = 500;
 Css* css;
 Lumex* lumex;
 Oled* oled;
+Pid<uint8_t>* pid;
 Adafruit_BME280 bme;
 
 void setup() {
@@ -56,9 +57,18 @@ void setup() {
         .reset_pin = -1,
         .addr = 0x3C
     };
+    const Pid<uint8_t>::Spec pid_spec {
+        .kp = 1,
+        .kd = 1,
+        .ki = 1,
+        .setpoint = 50,
+        .min = 0,
+        .max = 100
+    };
     css = new Css(css_spec);
     lumex = new Lumex(lumex_spec);
     oled = new Oled(oled_spec);
+    pid = new Pid<uint8_t>(pid_spec);
     // relay module output (active high)
     pinMode(H20_PIN, OUTPUT);
     digitalWrite(H20_PIN,HIGH);
@@ -73,14 +83,9 @@ void setup() {
 void loop() {
     // create a new telemetry instance
     Sensorframe telemetry;
-    // if ( idx == SAMPLE_SIZE ) {
-    //     idx = 0;
-    //     digitalWrite(H20_PIN,LOW);
-    //     delay(2000);
-    //     digitalWrite(H20_PIN,HIGH);
-    // }
     // poll sensors (updates internal buffers)
     telemetry.sm = css->read();
+    // sm_controller(telemetry.sm);
     telemetry.lx = lumex->read();
     telemetry.tp = bme.readTemperature();
     telemetry.pa = bme.readPressure()/1000; //kPa
@@ -96,4 +101,19 @@ void publish_sensorframe(Sensorframe telemetry) {
     String sensorframe = String("TP&") + String(telemetry.tp) + "|" + "RH&" + String(telemetry.rh) + "|" + "PA&" + String(telemetry.pa) + "|" + "SM&" + String(telemetry.sm) + "|" + "LX&" + String(telemetry.lx) + "|";
     // Publish through serial for digest
     Serial.println(sensorframe);
+}
+
+/**
+ * @brief poc controller function for soil moisture control
+ * 
+ */
+void sm_controller(uint8_t sm) {
+    uint8_t out;
+    out = pid->compute(sm);
+    if (out > 50) {
+        digitalWrite(H20_PIN,LOW);
+    } else {
+        digitalWrite(H20_PIN,HIGH);
+    }
+    
 }
