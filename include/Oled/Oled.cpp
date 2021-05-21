@@ -1,8 +1,8 @@
 // -*- lsst-c++ -*-
 /**
  * @file Oled.cpp
- * @author your name (you@domain.com)
- * @brief 
+ * @author Christian Sargusingh 
+ * @brief OLED wrapper for Adafruit_SSD1306 module
  * @version 0.1
  * @date 2021-05-19
  * 
