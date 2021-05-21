@@ -4,3 +4,4 @@ Modified: 2021-05
 ## Navigation
 1. [Developers Guide](dev.md)
 2. [Continous Integration](ci.md)
+3. [PID Controller](pid.md)
